@@ -18,6 +18,11 @@ contract ConstantProductAMM {
 
     mapping(address => uint256) public balanceOf; 
 
+    /* 
+    * @notice Constructor to initialize the token0 and token1 addresses
+    * @param _token0 The address of the first token
+    * @param _token1 The address of the second token
+    */
     constructor(address _token0, address _token1) {
         token0 = IERC20(_token0); 
         token1 = IERC20(_token1);
@@ -51,6 +56,12 @@ contract ConstantProductAMM {
         emit Swap(msg.sender, _amountIn, amountOut);
     }
 
+    /* 
+    * @notice Add liquidity function to add liquidity to the pool
+    * @param _amount0 The amount of token0 to add
+    * @param _amount1 The amount of token1 to add
+    * @return shares The amount of shares received for the liquidity added 
+    */
     function addLiquidity(uint256 _amount0, uint256 _amount1) external returns(uint256 shares) {
         require(_amount0 > 0 && _amount1 > 0, "Zero amount!"); 
         token0.transferFrom(msg.sender, address(this), _amount0);
@@ -74,6 +85,12 @@ contract ConstantProductAMM {
         
     }
 
+    /* 
+    * @notice Remove liquidity function to remove liquidity from the pool
+    * @param _shares The amount of shares to remove
+    * @return amount0 The amount of token0 received
+    * @return amount1 The amount of token1 received
+    */
     function removeLiquidity(uint256 _shares) external returns(uint256 amount0, uint256 amount1) {
         require(_shares > 0, "Zero shares!"); 
 
@@ -97,11 +114,21 @@ contract ConstantProductAMM {
 
     }
 
+    /* 
+    * @notice Update reserves function to update the reserves of the pool
+    * @param _reserve0 The new reserve of token0
+    * @param _reserve1 The new reserve of token1
+    */
     function _updateReserves(uint256 _reserve0, uint256 _reserve1) internal {
         reserve0 = _reserve0;
         reserve1 = _reserve1;
     }
 
+    /* 
+    * @notice Square root function to calculate the square root of a number
+    * @param y The number to calculate the square root of
+    * @return z The square root of the number
+    */
     function _sqrt(uint256 y) private pure returns (uint256 z) {
         if (y > 3) {
             z = y;
@@ -115,6 +142,12 @@ contract ConstantProductAMM {
         }
     }
 
+    /* 
+    * @notice Minimum function to return the minimum of two numbers
+    * @param x The first number
+    * @param y The second number
+    * @return The minimum of the two numbers
+    */
     function _min(uint256 x, uint256 y) private pure returns (uint256) {
         return x <= y ? x : y;
     }
