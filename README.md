@@ -1,66 +1,50 @@
-## Foundry
+# Constant Product Automated Market Maker (CPAMM)
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+This project implements a Constant Product Automated Market Maker (CPAMM) using Solidity. It's designed to facilitate token swaps and liquidity provision in a decentralized manner.
 
-Foundry consists of:
+## Overview
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+The CPAMM is a smart contract that allows users to:
+- Swap between two ERC20 tokens
+- Add liquidity to the pool
+- Remove liquidity from the pool
 
-## Documentation
+The contract maintains a constant product of reserves (x * y = k) to determine exchange rates and manage liquidity.
 
-https://book.getfoundry.sh/
+## Key Features
 
-## Usage
+- Swap tokens with a 0.5% fee
+- Add and remove liquidity
+- Automatic price adjustment based on supply and demand
+- Compatible with any ERC20 token pair
 
-### Build
+## Smart Contracts
 
-```shell
-$ forge build
-```
+- `ConstantProductAMM.sol`: The main CPAMM contract
+- `Deploy.s.sol`: Script for deploying the CPAMM
 
-### Test
+## Setup and Deployment
 
-```shell
-$ forge test
-```
+1. Install dependencies:
+   ```
+   forge install
+   ```
 
-### Format
+2. Set up your `.env` file with the following variables:
+   - `SEPOLIA_RPC_URL`: RPC URL for the Sepolia testnet
+   - `ETHERSCAN_API_KEY`: Your Etherscan API key
+   - `PRIVATE_KEY`: Your wallet's private key
 
-```shell
-$ forge fmt
-```
+3. Deploy the contract:
+   ```
+   make deploy
+   ```
 
-### Gas Snapshots
+4. Interact with the contract:
+   ```
+   make interactions
+   ```
 
-```shell
-$ forge snapshot
-```
+## Testing
 
-### Anvil
-
-```shell
-$ anvil
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+Run the test suite using Forge:
